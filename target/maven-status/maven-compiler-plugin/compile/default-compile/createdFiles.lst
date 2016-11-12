@@ -1,0 +1,16 @@
+model/Wydawnictwo.class
+dao/KsiazkaDao.class
+util/CommonUtils.class
+webapp/BooksRegistryController.class
+model/Kategoria.class
+dao/WydawnictwoDao.class
+model/RejestrKsiazkek.class
+dao/RejestrKsiazekDao.class
+webapp/UserController.class
+util/DBUtil.class
+webapp/LoginServlet.class
+model/User.class
+webapp/BooksController.class
+dao/UserDao.class
+model/ExtendedBook.class
+model/Ksiazka.class
