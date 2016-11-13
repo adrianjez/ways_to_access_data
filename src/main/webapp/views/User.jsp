@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/responstables.css">
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <title>User details</title>
 </head>

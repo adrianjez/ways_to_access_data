@@ -24,7 +24,7 @@ public class UserDao {
 		ArrayList<User> result = new ArrayList();
 		try {
 			Statement statement = mConnection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from OSOBA");
+			ResultSet rs = statement.executeQuery("select * from OSOBA order by 1");
 			while (rs.next()){
 				User user = new User();
 				user.setUserId(rs.getInt("ID"));

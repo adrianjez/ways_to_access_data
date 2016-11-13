@@ -19,6 +19,7 @@ import model.User;
 public class BooksRegistryController extends HttpServlet {
 
 	private static final String BOOKS_REGISTER = "/views/BooksRegister.jsp";
+	private static final String HISTORY_OF_BOOK = "views/BookHistory.jsp";
 
 	private RejestrKsiazekDao dao;
 	private UserDao userDao;
@@ -36,15 +37,30 @@ public class BooksRegistryController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<ExtendedBook> books = dao.getAllBooks();
-		List<User> users = userDao.getAllUsers();
+		Enumeration e = request.getParameterNames();
+	    while(e.hasMoreElements()){
+	    	String parName =  e.nextElement().toString();
+	    	System.out.println("GET BooksRegistryController Element: " + parName);
+	    	System.out.println("Value " + request.getParameter(parName));
+	    }
+		
 		String forward = "";
 		String action = request.getParameter("action");
-		if (action == "main" || action == null)
+		System.err.println("DETECTED ACTION: " + action);
+		if (action == null || action.equalsIgnoreCase("main")){
 			forward = BOOKS_REGISTER;
-		System.out.print("Books Count" + String.valueOf(dao.getAllBooks()));
-		request.setAttribute("extended_books", books);
-		request.setAttribute("users_list", users);
+			List<ExtendedBook> books = dao.getAllBooks();
+			List<User> users = userDao.getAllUsers();
+			request.setAttribute("extended_books", books);
+			request.setAttribute("users_list", users);
+		}
+		else if (action.equalsIgnoreCase("bookDetails")){
+			System.err.println("DETECTED bookDetails action");
+			String bookID = request.getParameter("bookId");
+			request.setAttribute("bookTransactions", dao.getListOfBookTransactions(Integer.parseInt(bookID)));
+			forward = HISTORY_OF_BOOK;
+		}		
+		System.err.println("FORWARDED TO: " + forward);
 		request.getRequestDispatcher(forward).forward(request, response);
 	}
 

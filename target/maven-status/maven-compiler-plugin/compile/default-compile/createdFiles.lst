@@ -2,6 +2,7 @@ model/Wydawnictwo.class
 dao/KsiazkaDao.class
 util/CommonUtils.class
 webapp/BooksRegistryController.class
+model/BookTransaction.class
 model/Kategoria.class
 dao/WydawnictwoDao.class
 model/RejestrKsiazkek.class

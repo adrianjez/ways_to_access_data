@@ -12,6 +12,7 @@ import model.Ksiazka;
 import model.Wydawnictwo;
 import util.DBUtil;
 
+@Deprecated
 public class WydawnictwoDao {
 	
 

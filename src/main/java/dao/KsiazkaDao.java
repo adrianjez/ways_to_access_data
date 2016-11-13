@@ -26,7 +26,7 @@ public class KsiazkaDao {
 		ArrayList<Ksiazka> result = new ArrayList();
 		try {
 			Statement statement = mConnection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from BOOKS");
+			ResultSet rs = statement.executeQuery("select * from BOOKS order by 1");
 			while (rs.next()){
 				Ksiazka ksiazka = new Ksiazka();
 				ksiazka.setId(rs.getInt("ID"));

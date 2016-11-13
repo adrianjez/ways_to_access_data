@@ -11,6 +11,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.BookTransaction;
 import model.ExtendedBook;
 import model.Ksiazka;
 import model.User;
@@ -21,9 +22,11 @@ public class RejestrKsiazekDao {
 
 	private static final String TAG = "RejestrKsiazek";
 	private Connection mConnection;
+	private UserDao userDao;
 	
 	public RejestrKsiazekDao() {
 		mConnection = DBUtil.getConnection();
+		this.userDao = new UserDao();
 	}
 	
 	public List<ExtendedBook> getAllBooks(){
@@ -34,9 +37,8 @@ public class RejestrKsiazekDao {
 					+ "(SELECT COUNT(*) "
 					+ "FROM BOOKSREGISTRY R "
 					+ "WHERE R.ID_KSIAZKI = B.ID AND R.ZWROT IS NULL) AS \"COUNT_USERS\" "
-							+ "FROM BOOKS B";
+							+ "FROM BOOKS B ORDER BY 1";
 			ResultSet rs = statement.executeQuery(query);
-			System.out.println("GetAllBooks QUERY:_ " + query);
 			while (rs.next()){
 				ExtendedBook ksiazka = new ExtendedBook();
 				ksiazka.setId(rs.getInt("ID"));
@@ -100,6 +102,29 @@ public class RejestrKsiazekDao {
 		System.err.println(TAG + "Unknown error in updateUser Method");
 		return false;
 	}
+	
+	
+	public ArrayList<BookTransaction> getListOfBookTransactions(int bookID){
+		ArrayList<BookTransaction> result = new ArrayList<BookTransaction>();
+		try {
+			Statement statement = mConnection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from BOOKSREGISTRY where ID_KSIAZKI =" + bookID + " order by 1");
+			while (rs.next()){
+				BookTransaction trans = new BookTransaction();
+				trans.setId(rs.getInt("ID"));
+				trans.setData_wydania(rs.getDate("WYDANO"));
+				trans.setData_zwrotu(rs.getDate("ZWROT"));
+				trans.setOsoba(this.userDao.getUserById(rs.getInt("ID_OSOBY")));
+				result.add(trans);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(TAG + "METHOD getListOfBookTransactions result count" + result.size());
+		return result;
+	}
+	
 	@Deprecated
 	public boolean isBookTaken(int bookID){
 		try {
@@ -115,6 +140,4 @@ public class RejestrKsiazekDao {
 		}
 		return true;
 	}
-	
-	
 }
